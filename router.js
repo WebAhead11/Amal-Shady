@@ -18,4 +18,7 @@ router.post("/login", (req, res) => {
     res.end("Unregistered User");
   }
 });
+router.post("/chatbox", (req, res) => {
+  res.redirect("/chat");
+});
 module.exports = router;

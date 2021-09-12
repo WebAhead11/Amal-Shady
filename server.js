@@ -8,7 +8,7 @@ const socketio = require("socket.io");
 const router = require("./router");
 const server = http.createServer(app);
 const io = socketio(server);
-
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded());
 app.use(express.json());
 app.set("view engine", "ejs");
@@ -27,6 +27,9 @@ app.get("/", (req, res) => {
 });
 app.get("/dashboard", (req, res) => {
   res.render("dashboard", { title: "Dashboard" });
+});
+app.get("/chat", (req, res) => {
+  res.render("chat", { title: "chatbox" });
 });
 io.on("connection", (socket) => {
   console.log("Connection success");
