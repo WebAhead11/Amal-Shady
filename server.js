@@ -1,9 +1,13 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const http = require("http");
 const PORT = process.env.PORT || 3000;
 const session = require("express-session");
+const socketio = require("socket.io");
 const router = require("./router");
+const server = http.createServer(app);
+const io = socketio(server);
 
 app.use(express.urlencoded());
 app.use(express.json());
@@ -23,5 +27,8 @@ app.get("/", (req, res) => {
 });
 app.get("/dashboard", (req, res) => {
   res.render("dashboard", { title: "Dashboard" });
+});
+io.on("connection", (socket) => {
+  console.log("Connection success");
 });
 app.listen(PORT, () => console.log("server on http://localhost:3000"));
