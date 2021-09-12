@@ -8,7 +8,7 @@ const socketio = require("socket.io");
 const router = require("./router");
 const server = http.createServer(app);
 const io = socketio(server);
-app.use(express.static(path.join(__dirname, "public")));
+
 app.use(express.urlencoded());
 app.use(express.json());
 app.set("view engine", "ejs");
@@ -20,18 +20,23 @@ app.use(
     saveUninitialized: true,
   })
 );
+
 app.use("/route", router);
 //home
+
 app.get("/", (req, res) => {
   res.render("index", { title: "Login" });
 });
 app.get("/dashboard", (req, res) => {
   res.render("dashboard", { title: "Dashboard" });
 });
+
 app.get("/chat", (req, res) => {
   res.render("chat", { title: "chatbox" });
 });
 io.on("connection", (socket) => {
-  console.log("Connection success");
+  console.log("testt");
+  socket.emit("chat-message", "hello world");
 });
-app.listen(PORT, () => console.log("server on http://localhost:3000"));
+
+server.listen(PORT, () => console.log("server on http://localhost:3000"));
