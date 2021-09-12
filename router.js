@@ -1,7 +1,6 @@
 // const response = require("express");
 var express = require("express");
 var router = express.Router();
-
 const cred = {
   email: "test@test.com",
   password: "test1234",
@@ -19,5 +18,4 @@ router.post("/login", (req, res) => {
     res.end("Unregistered User");
   }
 });
-
 module.exports = router;
