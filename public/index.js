@@ -29,6 +29,6 @@ function outputMessage(message) {
   div.classList.add("message");
   div.innerHTML = `<p class="meta">${message.username}<span>${message.time}</span></p>
   <p class="text">
-  ${message.msg}</p> `;
+  ${message.msgx}</p> `;
   document.getElementById("ChatBox").appendChild(div);
 }
