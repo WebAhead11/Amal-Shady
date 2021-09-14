@@ -29,9 +29,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-
 app.use("/route", router);
-
 //renders home page
 app.get("/", (req, res) => {
   res.clearCookie("user");
@@ -48,19 +46,22 @@ app.get("/chat", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/index.html"));
   }
 });
-
 io.on("connection", (socket) => {
+  var temp = cookie.parse(socket.handshake.headers.cookie);
+  var mail = JSON.parse(temp.user);
   socket.emit("message", messageFormater("Admin", "Welcome to the ChatRooms"));
-
   //sends a message to all users that someone has connected except the user himself
   socket.broadcast.emit(
     "message",
-    messageFormater("Admin", "A user has joined the chat")
+    messageFormater("Admin", `${mail.username} has joined the chat`)
   );
 
   //when a client dissconects
   socket.on("disconnect", () => {
-    io.emit("message", messageFormater("Admin", "A user has left the chat"));
+    io.emit(
+      "message",
+      messageFormater("Admin", `${mail.username}  has left the chat`)
+    );
   });
 
   //recieve and deal with the messages sent from the chat rooms
