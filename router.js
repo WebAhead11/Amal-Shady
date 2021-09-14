@@ -1,34 +1,28 @@
 // const response = require("express");
+const { json } = require("body-parser");
 var express = require("express");
 var router = express.Router();
 
-const fs = require("fs");
-fs.readFile("./user.json", "utf-8", (err,jsonString)=>{
-  if(err) {
-    console.log(err);
-  }else {
-    try{
-    const data = JSON.parse(jsonString);
-    console.log(data.address);
-  }catch(err){
-    console.log('Error parsing JSON, err');
-  }}
-}
-);
-
-const cred = {
-  email: "test@test.com",
-  password: "test1234",
-  email: "shady@shady.com",
-  password: "shady1234",
-  email: "amal@amal.com",
-  password: "amal1234",
-};
-
+var cred = [
+  { email: "amal@amal.com", password: "amal1234", username: "amal" },
+  { email: "shady@shady.com", password: "shady1234", username: "shady" },
+  { email: "kav@mashve.com", password: "kavmashve", username: "kavmashve" },
+];
 router.post("/login", (req, res) => {
-  if (req.body.email == cred.email && req.body.password == cred.password) {
+  const user = cred.find((u) => {
+    return u.email === req.body.email && u.password === req.body.password;
+  });
+
+  if (user) {
+    res.cookie(
+      "user",
+      JSON.stringify({
+        email: user.email,
+        username: user.username,
+      })
+    );
     req.session.user = req.body.email;
-    res.redirect("/dashboard");
+    res.redirect("/chat");
   } else {
     res.end("Unregistered User");
   }
