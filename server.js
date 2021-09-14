@@ -20,7 +20,7 @@ const io = socketio(server);
 app.use(cookieParser());
 app.use(express.urlencoded());
 app.use(express.json());
-app.set("view engine", "ejs");
+
 app.use("/static", express.static(path.join(__dirname, "public")));
 app.use(
   session({
@@ -34,7 +34,10 @@ app.use("/route", router);
 
 //renders home page
 app.get("/", (req, res) => {
-  // res.render("index", { title: "Login" });
+  res.clearCookie("user");
+  res.sendFile(path.join(__dirname + "/public/index.html"));
+});
+app.get("/logout", (req, res) => {
   res.sendFile(path.join(__dirname + "/public/index.html"));
 });
 //renders the chatbox

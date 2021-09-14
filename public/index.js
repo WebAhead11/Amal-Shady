@@ -4,14 +4,7 @@ const chatForm = document.getElementById("chat-form");
 const chatMessages = document.getElementById("ChatBox");
 const socket = io();
 
-function redi() {
-  router.post("/chat", (req, res) => {
-    res.redirect("/dashboard");
-  });
-}
-
 socket.on("message", (message) => {
-  console.log(message);
   outputMessage(message);
 
   //to enable scrolling up and down the conversation
@@ -27,9 +20,7 @@ chatForm.addEventListener("submit", (event) => {
   event.target.elements.msg.value = "";
   event.target.elements.msg.focus();
 });
-
 //html manipulation with dom
-
 function outputMessage(message) {
   const div = document.createElement("div");
   div.classList.add("message");
@@ -38,10 +29,10 @@ function outputMessage(message) {
   ${message.msg}</p> `;
   document.getElementById("ChatBox").appendChild(div);
 }
-document.getElementById('leave-btn').addEventListener('click', () => {
-  const leaveRoom = confirm('Are you sure you want to leave the chatroom?');
+//activates the 'log out' button
+document.getElementById("leave-btn").addEventListener("click", () => {
+  const leaveRoom = confirm("Are you sure you want to leave the chatroom?");
   if (leaveRoom) {
-    window.location = '../index.html';
-  } else {
+    window.location = "/";
   }
 });

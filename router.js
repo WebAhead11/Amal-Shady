@@ -8,6 +8,7 @@ var cred = [
   { email: "shady@shady.com", password: "shady1234", username: "shady" },
   { email: "kav@mashve.com", password: "kavmashve", username: "kavmashve" },
 ];
+
 router.post("/login", (req, res) => {
   const user = cred.find((u) => {
     return u.email === req.body.email && u.password === req.body.password;
