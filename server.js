@@ -3,8 +3,11 @@ const app = express();
 const path = require("path");
 const http = require("http");
 const PORT = process.env.PORT || 3000;
+// const jwt = require("jsonwebtoken");
 const cookie = require("cookie");
 const cookieParser = require("cookie-parser");
+// const userLeave = require('.utils/users')
+// const SECRET = "bJ#M!7c^34h%d";
 
 const session = require("express-session");
 const messageFormater = require("./model/messages");
@@ -36,7 +39,11 @@ app.get("/", (req, res) => {
 });
 //renders the chatbox
 app.get("/chat", (req, res) => {
-  res.sendFile(path.join(__dirname + "/public/chat.html"));
+  if (req.cookies.user) {
+    res.sendFile(path.join(__dirname + "/public/chat.html"));
+  } else {
+    res.sendFile(path.join(__dirname + "/public/index.html"));
+  }
 });
 
 io.on("connection", (socket) => {
@@ -56,7 +63,6 @@ io.on("connection", (socket) => {
   //recieve and deal with the messages sent from the chat rooms
   socket.on("chatMessage", (msg) => {
     var temp = cookie.parse(socket.handshake.headers.cookie);
-    console.log(temp);
     var mail = JSON.parse(temp.user);
 
     // we send the message to all the users
