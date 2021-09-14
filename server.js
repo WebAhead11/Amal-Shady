@@ -34,10 +34,6 @@ app.get("/", (req, res) => {
   // res.render("index", { title: "Login" });
   res.sendFile(path.join(__dirname + "/public/index.html"));
 });
-//renders dashboard
-app.get("/dashboard", (req, res) => {
-  res.sendFile(path.join(__dirname + "/public/dashboard.html"));
-});
 //renders the chatbox
 app.get("/chat", (req, res) => {
   res.sendFile(path.join(__dirname + "/public/chat.html"));

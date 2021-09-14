@@ -22,7 +22,7 @@ router.post("/login", (req, res) => {
       })
     );
     req.session.user = req.body.email;
-    res.redirect("/dashboard");
+    res.redirect("/chat");
   } else {
     res.end("Unregistered User");
   }

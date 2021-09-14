@@ -4,6 +4,12 @@ const chatForm = document.getElementById("chat-form");
 const chatMessages = document.getElementById("ChatBox");
 const socket = io();
 
+function redi() {
+  router.post("/chat", (req, res) => {
+    res.redirect("/dashboard");
+  });
+}
+
 socket.on("message", (message) => {
   console.log(message);
   outputMessage(message);
