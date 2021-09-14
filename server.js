@@ -3,8 +3,11 @@ const app = express();
 const path = require("path");
 const http = require("http");
 const PORT = process.env.PORT || 3000;
+// const jwt = require("jsonwebtoken");
 const cookie = require("cookie");
 const cookieParser = require("cookie-parser");
+// const userLeave = require('.utils/users')
+// const SECRET = "bJ#M!7c^34h%d";
 
 const session = require("express-session");
 const messageFormater = require("./model/messages");
@@ -26,6 +29,8 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+
 
 app.use("/route", router);
 
