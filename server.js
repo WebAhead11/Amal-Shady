@@ -3,6 +3,9 @@ const app = express();
 const path = require("path");
 const http = require("http");
 const PORT = process.env.PORT || 3000;
+const cookie = require("cookie");
+const cookieParser = require("cookie-parser");
+
 const session = require("express-session");
 const messageFormater = require("./model/messages");
 //setting up the server to accept socket io
@@ -11,6 +14,7 @@ const router = require("./router");
 const server = http.createServer(app);
 const io = socketio(server);
 
+app.use(cookieParser());
 app.use(express.urlencoded());
 app.use(express.json());
 app.set("view engine", "ejs");
@@ -55,8 +59,12 @@ io.on("connection", (socket) => {
 
   //recieve and deal with the messages sent from the chat rooms
   socket.on("chatMessage", (msg) => {
+    var temp = cookie.parse(socket.handshake.headers.cookie);
+    console.log(temp);
+    var mail = JSON.parse(temp.user);
+
     // we send the message to all the users
-    io.emit("message", messageFormater("user", msg));
+    io.emit("message", messageFormater(mail.username, msg));
   });
 });
 
